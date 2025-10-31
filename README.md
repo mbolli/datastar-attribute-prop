@@ -49,17 +49,19 @@ attribute(propPlugin(effect))
 
 ### CDN Usage (without npm)
 
-You can also use the plugin directly from CDN:
+You can also use the plugin directly from npm CDN:
 
 ```html
 <script type="module">
   import { attribute, effect } from 'https://cdn.jsdelivr.net/gh/starfederation/datastar@main/bundles/datastar.js'
-  import propPlugin from 'https://cdn.jsdelivr.net/gh/mbolli/datastar-attribute-prop@main/dist/index.js'
+  import propPlugin from 'https://cdn.jsdelivr.net/npm/@mbolli/datastar-attribute-prop@1/dist/index.js'
   
   // Register the plugin
   attribute(propPlugin(effect))
 </script>
 ```
+
+Note: Using `@1` will automatically use the latest v1.x.x version.
 
 ## What it does
 
@@ -101,6 +103,27 @@ Or open `test.html` in a browser to interactively test the plugin with Datastar.
 - Multiple property binding
 - Different input types
 - Dynamic updates
+
+## Development & Releases
+
+This project uses automated releases via GitHub Actions. When you push to `main`:
+
+1. **Tests run automatically** - Build and tests must pass
+2. **Version bumping** - Add to your commit message:
+   - `[major]` for breaking changes (1.0.0 → 2.0.0)
+   - `[minor]` for new features (1.0.0 → 1.1.0)
+   - Default: patch for bug fixes (1.0.0 → 1.0.1)
+3. **Automatic publishing** - Package is published to npm
+4. **GitHub Release created** - With auto-generated release notes
+
+### Setup Requirements
+
+Add `NPM_TOKEN` to your GitHub repository secrets:
+1. Go to [npmjs.com](https://www.npmjs.com/) → Access Tokens
+2. Create an "Automation" token
+3. Add it to GitHub: Settings → Secrets → Actions → New repository secret
+   - Name: `NPM_TOKEN`
+   - Value: Your npm token
 
 ## License
 
