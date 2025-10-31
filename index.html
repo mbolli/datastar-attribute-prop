@@ -208,11 +208,24 @@
 </head>
 <body>
     <div class="status">
-        <h3>📊 Live State</h3>
+        <h3>📦 Installation</h3>
         <div class="status-item">
-            <div class="status-label">Plugin Status</div>
-            <div class="status-value">✅ Loaded</div>
+            <div class="status-label">NPM</div>
+            <code style="display: block; white-space: pre-wrap; word-break: break-all; font-size: 0.7em; padding: 0.5rem;">npm install @mbolli/datastar-attribute-prop</code>
         </div>
+        <div class="status-item">
+            <div class="status-label">Setup</div>
+            <pre style="font-size: 0.65em; overflow-x: auto; margin: 0; padding: 0.5rem; background: var(--gray-900); color: var(--gray-50); border-radius: 4px; white-space: pre-wrap; word-break: break-all;">&lt;script type="importmap"&gt;
+{
+  "imports": {
+    "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js"
+  }
+}
+&lt;/script&gt;
+&lt;script type="module" src="https://cdn.jsdelivr.net/npm/@mbolli/datastar-attribute-prop@1/dist/index.js"&gt;&lt;/script&gt;</pre>
+        </div>
+        
+        <h3>📊 Live State</h3>
         <div class="status-item">
             <div class="status-label">Signals</div>
             <pre data-json-signals style="font-size: 0.75em; overflow-x: auto; margin: 0; padding: 0.5rem; background: var(--gray-50); border-radius: 4px;"></pre>
@@ -333,15 +346,16 @@
 
     </div>
 
+    <script type="importmap">
+        {
+            "imports": {
+                "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js"
+            }
+        }
+    </script>
     <script type="module">
-        // Use CDN for GitHub Pages deployment
-        import { attribute, effect } from 'https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js';
-        import propPlugin from 'https://cdn.jsdelivr.net/npm/@mbolli/datastar-attribute-prop@1/dist/index.js';
-
-        // Register the plugin
-        attribute(propPlugin(effect))
-        
-        console.log('✅ Datastar prop plugin loaded and registered!')
+        // Import the plugin - it will auto-register if 'datastar' is available via importmap
+        import './dist/index.js'
     </script>
 </body>
 </html>
