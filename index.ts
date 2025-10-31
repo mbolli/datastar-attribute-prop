@@ -6,6 +6,23 @@ import type {
     Effect
 } from 'datastar/library/src/engine/types'
 
+// Auto-register with datastar if available from importmap
+if (typeof window !== 'undefined') {
+    // Try to import datastar dynamically if it's available via importmap
+    (async () => {
+        try {
+            // @ts-ignore - datastar may be available via importmap at runtime
+            const datastar = await import('datastar')
+            if (datastar?.attribute && datastar?.effect) {
+                datastar.attribute(propPlugin(datastar.effect))
+                console.log('✅ Datastar prop plugin auto-registered')
+            }
+        } catch (e) {
+            // Datastar not available via importmap, plugin needs manual registration
+        }
+    })()
+}
+
 export default function propPlugin(effect: (fn: () => void) => Effect): AttributePlugin<{ value: 'must' }, true> {
     return {
         name: 'prop',
@@ -16,27 +33,19 @@ export default function propPlugin(effect: (fn: () => void) => Effect): Attribut
         apply({ el, key, rx }) {
             const update = key
                 ? () => { // Single property
-                    observer.disconnect()
                     const val = rx!()
                     ;(el as any)[key] = val
-                    observer.observe(el, { attributeFilter: [key] })
                 }
                 : () => { // Multiple properties
-                    observer.disconnect()
                     const obj = rx!() as Record<string, any>
-                    const attributeFilter = Object.keys(obj)
-                    for (const key of attributeFilter) {
+                    for (const key of Object.keys(obj)) {
                         ;(el as any)[key] = obj[key]
                     }
-                    observer.observe(el, { attributeFilter })
                 }
-            const observer = new MutationObserver(update)
+            
             const cleanup = effect(update)
 
-            return () => {
-                observer.disconnect()
-                cleanup()
-            }
+            return cleanup
         }
     }
 }
