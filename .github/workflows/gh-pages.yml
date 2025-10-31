@@ -24,6 +24,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm build
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
@@ -31,6 +47,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/
+          cp -r dist _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
