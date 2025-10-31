@@ -1,6 +1,6 @@
 {
   "name": "@mbolli/datastar-attribute-prop",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Datastar plugin for custom attribute binding to sync element properties with signals",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
