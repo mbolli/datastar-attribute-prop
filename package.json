@@ -1,0 +1,42 @@
+{
+  "name": "@mbolli/datastar-attribute-prop",
+  "version": "1.0.0",
+  "description": "Datastar plugin for custom attribute binding to sync element properties with signals",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc && dts-bundle-generator --config dts-bundle-generator.config.cjs",
+    "test": "pnpm build && node --test dist/index.test.js",
+    "test:browser": "python3 -m http.server 8080",
+    "prepublishOnly": "pnpm test"
+  },
+  "keywords": [
+    "datastar",
+    "plugin",
+    "attribute",
+    "property",
+    "binding",
+    "reactive"
+  ],
+  "author": "Michael Bolli <michael@bolli.us>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jsdom": "^27.0.0",
+    "@types/node": "^24.9.2",
+    "datastar": "github:starfederation/datastar",
+    "dts-bundle-generator": "^9.5.1",
+    "jsdom": "^27.1.0",
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mbolli/datastar-attribute-prop.git"
+  }
+}
