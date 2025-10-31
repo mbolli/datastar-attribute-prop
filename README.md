@@ -53,7 +53,7 @@ You can also use the plugin directly from npm CDN:
 
 ```html
 <script type="module">
-  import { attribute, effect } from 'https://cdn.jsdelivr.net/gh/starfederation/datastar@main/bundles/datastar.js'
+  import { attribute, effect } from 'https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js'
   import propPlugin from 'https://cdn.jsdelivr.net/npm/@mbolli/datastar-attribute-prop@1/dist/index.js'
   
   // Register the plugin
@@ -90,6 +90,10 @@ This binds multiple properties at once using an object.
 - Properly cleans up observers on element removal
 - Works with both single property and multiple property bindings
 
+## Demo
+
+**[View Interactive Demo →](https://mbolli.github.io/datastar-attribute-prop/)**
+
 ## Testing
 
 Run the automated tests:
@@ -98,7 +102,7 @@ Run the automated tests:
 pnpm test
 ```
 
-Or open `test.html` in a browser to interactively test the plugin with Datastar. The test page includes examples of:
+Or open `index.html` locally in a browser to interactively test the plugin with Datastar. The demo includes examples of:
 - Single property binding (value, disabled, checked)
 - Multiple property binding
 - Different input types
@@ -115,15 +119,6 @@ This project uses automated releases via GitHub Actions. When you push to `main`
    - Default: patch for bug fixes (1.0.0 → 1.0.1)
 3. **Automatic publishing** - Package is published to npm
 4. **GitHub Release created** - With auto-generated release notes
-
-### Setup Requirements
-
-Add `NPM_TOKEN` to your GitHub repository secrets:
-1. Go to [npmjs.com](https://www.npmjs.com/) → Access Tokens
-2. Create an "Automation" token
-3. Add it to GitHub: Settings → Secrets → Actions → New repository secret
-   - Name: `NPM_TOKEN`
-   - Value: Your npm token
 
 ## License
 

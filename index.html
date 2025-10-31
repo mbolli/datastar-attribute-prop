@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datastar data-prop Plugin</title>
+    <meta name="description" content="Interactive demo and documentation for @mbolli/datastar-attribute-prop - A Datastar plugin for binding reactive signals to DOM element properties">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-700: #374151;
+            --gray-900: #1f2937;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-right: 340px;
+        }
+        
+        header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        header p {
+            margin: 0;
+            color: var(--gray-700);
+            font-size: 1.1rem;
+        }
+        
+        .badges {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .badge:hover {
+            background: var(--primary-dark);
+        }
+        
+        .badge.secondary {
+            background: var(--gray-700);
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-section h2 {
+            color: var(--gray-900);
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+        }
+        
+        .test-section > p {
+            color: var(--gray-700);
+            margin: 0 0 1.5rem 0;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        button:disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+            transform: none;
+        }
+        input, textarea {
+            display: block;
+            width: 100%;
+            padding: 0.625rem;
+            margin: 0.5rem 0;
+            border: 2px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        input:disabled, textarea:disabled {
+            background: var(--gray-100);
+            cursor: not-allowed;
+        }
+        .status {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100vh;
+            padding: 1.5rem;
+            background: white;
+            border-left: 1px solid var(--gray-200);
+            overflow-y: auto;
+            box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+        }
+        .status h3 {
+            margin: 0 0 1rem 0;
+            color: var(--gray-900);
+            font-size: 1.25rem;
+        }
+        .status-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        .status-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-700);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .status-value {
+            color: var(--gray-900);
+            font-weight: 500;
+        }
+        code {
+            background: var(--gray-900);
+            color: var(--gray-50);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding-right: 2rem;
+            }
+            .status {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="status">
+        <h3>📊 Live State</h3>
+        <div class="status-item">
+            <div class="status-label">Plugin Status</div>
+            <div class="status-value">✅ Loaded</div>
+        </div>
+        <div class="status-item">
+            <div class="status-label">Signals</div>
+            <pre data-json-signals style="font-size: 0.75em; overflow-x: auto; margin: 0; padding: 0.5rem; background: var(--gray-50); border-radius: 4px;"></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>⚡ Datastar Prop Plugin</h1>
+            <p>Interactive demo showcasing property binding with reactive signals</p>
+            <div class="badges">
+                <a href="https://github.com/mbolli/datastar-attribute-prop" class="badge" target="_blank">GitHub</a>
+                <a href="https://www.npmjs.com/package/@mbolli/datastar-attribute-prop" class="badge" target="_blank">npm</a>
+                <a href="https://data-star.dev" class="badge secondary" target="_blank">Datastar Docs</a>
+            </div>
+        </header>
+
+    <!-- Test 1: Single Property Binding -->
+    <div class="test-section">
+        <h2>Test 1: Single Property - Input Value</h2>
+        <p>Uses <code>data-prop:value</code> to bind the value property.</p>
+        
+        <div data-signals:input-value="'Hello Datastar!'">
+            <input 
+                type="text" 
+                data-prop:value="$inputValue"
+                placeholder="This value is controlled by a signal"
+            >
+            <button data-on:click="$inputValue = 'Updated!'">Set to "Updated!"</button>
+            <button data-on:click="$inputValue = 'Test ' + Date.now()">Set Random</button>
+        </div>
+    </div>
+
+    <!-- Test 2: Single Property - Disabled State -->
+    <div class="test-section">
+        <h2>Test 2: Single Property - Disabled State</h2>
+        <p>Uses <code>data-prop:disabled</code> to control button state.</p>
+
+        <div data-signals:is-disabled="false">
+            <input type="text" data-prop:disabled="$isDisabled" value="I can be disabled!">
+            <button data-on:click="$isDisabled = !$isDisabled">
+                Toggle Disabled (<span data-text="$isDisabled ? 'Currently Disabled' : 'Currently Enabled'"></span>)
+            </button>
+        </div>
+    </div>
+
+    <!-- Test 3: Multiple Properties -->
+    <div class="test-section">
+        <h2>Test 3: Multiple Properties</h2>
+        <p>Uses <code>data-prop</code> without a key to set multiple properties at once.</p>
+        
+        <div data-signals='{ "textValue": "Edit me!", "isReadOnly": false, "maxChars": 100 }'>
+            <textarea 
+                data-prop="{ value: $textValue, readOnly: $isReadOnly, maxLength: $maxChars }"
+                rows="4"
+            ></textarea>
+            
+            <div>
+                <button data-on:click="$textValue = 'The quick brown fox jumps over the lazy dog'">
+                    Set Sample Text
+                </button>
+                <button data-on:click="$isReadOnly = !$isReadOnly">
+                    Toggle Read-Only (<span data-text="$isReadOnly ? 'Read-Only' : 'Editable'"></span>)
+                </button>
+                <button data-on:click="$maxChars = $maxChars === 100 ? 50 : 100">
+                    Max Length: <span data-text="$maxChars"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test 4: Input Types -->
+    <div class="test-section">
+        <h2>Test 4: Different Input Types</h2>
+        <p>Testing property binding with various input types.</p>
+        
+        <div data-signals='{ 
+            "checkValue": true, 
+            "rangeValue": 50
+        }'>
+            <label>
+                Checkbox (checked property):
+                <input 
+                    type="checkbox" 
+                    data-prop:checked="$checkValue"
+                >
+                <span data-text="$checkValue ? 'Checked' : 'Unchecked'"></span>
+                <button data-on:click="$checkValue = !$checkValue">Toggle</button>
+            </label>
+            <br><br>
+            
+            <label>
+                Range (value property):
+                <input 
+                    type="range" 
+                    min="0" 
+                    max="100"
+                    data-prop:value="$rangeValue"
+                >
+                <span data-text="$rangeValue"></span>
+                <button data-on:click="$rangeValue = Math.floor(Math.random() * 100)">Random</button>
+            </label>
+        </div>
+    </div>
+
+    <!-- Test 5: Complex Object Properties -->
+    <div class="test-section">
+        <h2>Test 5: Complex Properties</h2>
+        <p>Setting custom properties on elements.</p>
+        
+        <div data-signals='{ "customData": { "userId": 123, "userName": "TestUser" } }'>
+            <div id="custom-element"></div>
+            <button data-on:click="$customData = { userId: Math.floor(Math.random() * 1000), userName: 'User' + Math.floor(Math.random() * 100) }">
+                Update Custom Data
+            </button>
+        </div>
+    </div>
+
+    </div>
+
+    <script type="module">
+        // Use CDN for GitHub Pages deployment
+        import { attribute, effect } from 'https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js';
+        import propPlugin from 'https://cdn.jsdelivr.net/npm/@mbolli/datastar-attribute-prop@1/dist/index.js';
+
+        // Register the plugin
+        attribute(propPlugin(effect))
+        
+        console.log('✅ Datastar prop plugin loaded and registered!')
+    </script>
+</body>
+</html>
