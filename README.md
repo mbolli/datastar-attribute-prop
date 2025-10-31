@@ -1,5 +1,10 @@
 # @mbolli/datastar-attribute-prop
 
+[![npm version](https://img.shields.io/npm/v/@mbolli/datastar-attribute-prop.svg)](https://www.npmjs.com/package/@mbolli/datastar-attribute-prop)
+[![Release](https://github.com/mbolli/datastar-attribute-prop/actions/workflows/release.yml/badge.svg)](https://github.com/mbolli/datastar-attribute-prop/actions/workflows/release.yml)
+[![GitHub Pages](https://github.com/mbolli/datastar-attribute-prop/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/mbolli/datastar-attribute-prop/actions/workflows/gh-pages.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A [Datastar](https://data-star.dev) plugin that provides property binding to sync element properties with reactive signals.
 
 ## About
