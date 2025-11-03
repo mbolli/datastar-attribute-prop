@@ -15,7 +15,6 @@ if (typeof window !== 'undefined') {
             const datastar = await import('datastar')
             if (datastar?.attribute && datastar?.effect) {
                 datastar.attribute(propPlugin(datastar.effect))
-                console.log('✅ Datastar prop plugin auto-registered')
             }
         } catch (e) {
             // Datastar not available via importmap, plugin needs manual registration

@@ -12,10 +12,12 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc && dts-bundle-generator --config dts-bundle-generator.config.cjs",
-    "test": "pnpm build && node --test dist/index.test.js",
+    "build": "tsc && NODE_ENV=production node esbuild.config.js && dts-bundle-generator --config dts-bundle-generator.config.cjs",
+    "build:dev": "tsc && node esbuild.config.js && dts-bundle-generator --config dts-bundle-generator.config.cjs",
+    "test": "node --test dist/index.test.js",
+    "test:compile": "tsc && node --test dist/index.test.js",
     "test:browser": "python3 -m http.server 8080",
-    "prepublishOnly": "pnpm test"
+    "prepublishOnly": "pnpm build && pnpm test"
   },
   "keywords": [
     "datastar",
@@ -29,14 +31,15 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jsdom": "^27.0.0",
-    "@types/node": "^24.9.2",
+    "@types/node": "^24.10.0",
     "datastar": "github:starfederation/datastar",
     "dts-bundle-generator": "^9.5.1",
+    "esbuild": "^0.25.12",
     "jsdom": "^27.1.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.9.3"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mbolli/datastar-attribute-prop.git"
+    "url": "git+https://github.com/mbolli/datastar-attribute-prop.git"
   }
 }
