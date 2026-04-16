@@ -17,7 +17,15 @@ While [`data-attr`](https://data-star.dev/reference/attributes#data-attr) works 
 - Element `disabled` property for real-time form control
 - Custom properties on web components
 
-This plugin fills that gap by providing a `data-prop` attribute that binds reactive signals directly to element properties. Since there's no native browser API to observe property changes on DOM elements, this plugin provides one-way binding from signals to properties (signal → property). For two-way binding with input `value` properties (where changes trigger input/change events), use Datastar's built-in [`data-bind`](https://data-star.dev/reference/attributes#data-bind) attribute.
+This plugin fills that gap by providing a `data-prop` attribute that binds reactive signals directly to element properties — a concise shorthand for `data-effect="el.prop = $signal"` that also supports setting multiple properties at once via object syntax.
+
+| | `data-prop` | [`data-effect`](https://data-star.dev/reference/attributes#data-effect) | [`data-bind __prop`](https://data-star.dev/reference/attributes#data-bind) |
+|---|---|---|---|
+| Binding direction | One-way (signal → property) | One-way (signal → property) | Two-way (signal ↔ property) |
+| Syntax | `data-prop:volume="$vol"` | `data-effect="el.volume = $vol"` | `data-bind:vol__prop.volume__event.change` |
+| Multiple props at once | ✅ via object syntax | Manual (multi-statement) | ❌ one at a time |
+| Event-less properties | ✅ | ✅ | ❌ `__event` mandatory |
+| Use case | Concise property push | Arbitrary JS side-effects | Two-way on custom elements |
 
 ## Installation
 
@@ -37,7 +45,7 @@ This plugin requires an import map to resolve the `datastar` module. Set up your
 <script type="importmap">
 {
   "imports": {
-    "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js"
+    "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-preview/bundles/datastar.js"
   }
 }
 </script>
