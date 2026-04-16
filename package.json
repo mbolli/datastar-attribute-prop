@@ -32,11 +32,11 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jsdom": "^27.0.0",
-    "@types/node": "^24.10.0",
-    "datastar": "github:starfederation/datastar",
+    "@types/node": "^24.12.2",
+    "datastar": "github:starfederation/datastar#1.0.0-preview",
     "dts-bundle-generator": "^9.5.1",
     "esbuild": "^0.25.12",
-    "jsdom": "^27.1.0",
+    "jsdom": "^27.4.0",
     "typescript": "^5.9.3"
   },
   "repository": {
