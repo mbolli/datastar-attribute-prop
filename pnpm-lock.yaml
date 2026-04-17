@@ -15,8 +15,8 @@ importers:
         specifier: ^24.12.2
         version: 24.12.2
       datastar:
-        specifier: github:starfederation/datastar#1.0.0-preview
-        version: https://codeload.github.com/starfederation/datastar/tar.gz/2ed5c4bdd3a1e605408a0949e7ae7ee640cc91a2
+        specifier: github:starfederation/datastar
+        version: https://codeload.github.com/starfederation/datastar/tar.gz/c70aa764c3bf15beac656f7c1d0c4b7999d7fa18
       dts-bundle-generator:
         specifier: ^9.5.1
         version: 9.5.1
@@ -292,8 +292,8 @@ packages:
     resolution: {integrity: sha512-euIQENZg6x8mj3fO6o9+fOW8MimUI4PpD/fZBhJfeioZVy9TUpM4UY7KjQNVZFlqwJ0UdzRDzkycB997HEq1BQ==}
     engines: {node: '>=20'}
 
-  datastar@https://codeload.github.com/starfederation/datastar/tar.gz/2ed5c4bdd3a1e605408a0949e7ae7ee640cc91a2:
-    resolution: {tarball: https://codeload.github.com/starfederation/datastar/tar.gz/2ed5c4bdd3a1e605408a0949e7ae7ee640cc91a2}
+  datastar@https://codeload.github.com/starfederation/datastar/tar.gz/c70aa764c3bf15beac656f7c1d0c4b7999d7fa18:
+    resolution: {tarball: https://codeload.github.com/starfederation/datastar/tar.gz/c70aa764c3bf15beac656f7c1d0c4b7999d7fa18}
     version: 0.0.0
 
   debug@4.4.3:
@@ -665,7 +665,7 @@ snapshots:
       whatwg-mimetype: 5.0.0
       whatwg-url: 15.1.0
 
-  datastar@https://codeload.github.com/starfederation/datastar/tar.gz/2ed5c4bdd3a1e605408a0949e7ae7ee640cc91a2: {}
+  datastar@https://codeload.github.com/starfederation/datastar/tar.gz/c70aa764c3bf15beac656f7c1d0c4b7999d7fa18: {}
 
   debug@4.4.3:
     dependencies:
