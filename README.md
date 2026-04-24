@@ -22,10 +22,11 @@ This plugin fills that gap by providing a `data-prop` attribute that binds react
 | | `data-prop` | [`data-effect`](https://data-star.dev/reference/attributes#data-effect) | [`data-bind __prop`](https://data-star.dev/reference/attributes#data-bind) |
 |---|---|---|---|
 | Binding direction | One-way (signal → property) | One-way (signal → property) | Two-way (signal ↔ property) |
-| Syntax | `data-prop:volume="$vol"` | `data-effect="el.volume = $vol"` | `data-bind:vol__prop.volume__event.change` |
+| Syntax | `data-prop:volume="$vol"` | `data-effect="el.volume = $vol"` | `data-bind:vol__prop.volume` |
 | Multiple props at once | ✅ via object syntax | Manual (multi-statement) | ❌ one at a time |
-| Event-less properties | ✅ | ✅ | ❌ `__event` mandatory |
-| Use case | Concise property push | Arbitrary JS side-effects | Two-way on custom elements |
+| Event-less properties | ✅ | ✅ | ✅ (since v1.0.1, `__event` optional) |
+| Arbitrary expressions | ✅ | ✅ | ❌ signal name only |
+| Use case | Concise property push | Arbitrary JS side-effects | Two-way on custom/native elements |
 
 ## Installation
 
@@ -45,7 +46,7 @@ This plugin requires an import map to resolve the `datastar` module. Set up your
 <script type="importmap">
 {
   "imports": {
-    "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"
+    "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.1/bundles/datastar.js"
   }
 }
 </script>

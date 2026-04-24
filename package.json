@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/jsdom": "^27.0.0",
     "@types/node": "^24.12.2",
-    "datastar": "github:starfederation/datastar",
+    "datastar": "github:starfederation/datastar#v1.0.1",
     "dts-bundle-generator": "^9.5.1",
     "esbuild": "^0.25.12",
     "jsdom": "^27.4.0",
