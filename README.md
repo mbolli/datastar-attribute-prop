@@ -22,7 +22,7 @@ This plugin fills that gap by providing a `data-prop` attribute that binds react
 | | `data-prop` | [`data-effect`](https://data-star.dev/reference/attributes#data-effect) | [`data-bind __prop`](https://data-star.dev/reference/attributes#data-bind) |
 |---|---|---|---|
 | Binding direction | One-way (signal → property) | One-way (signal → property) | Two-way (signal ↔ property) |
-| Syntax | `data-prop:volume="$vol"` | `data-effect="el.volume = $vol"` | `data-bind:vol__prop.volume` |
+| Syntax | `data-prop:volume="$vol"`<br>`data-prop="{ volume: $vol, muted: $muted }"` | `data-effect="el.volume = $vol"` | `data-bind:vol__prop.volume` |
 | Multiple props at once | ✅ via object syntax | Manual (multi-statement) | ❌ one at a time |
 | Arbitrary expressions | ✅ | ✅ | ❌ signal name only |
 | Use case | Concise property push | Arbitrary JS side-effects | Two-way on custom/native elements |
