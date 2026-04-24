@@ -17,7 +17,10 @@ While [`data-attr`](https://data-star.dev/reference/attributes#data-attr) works 
 - Element `disabled` property for real-time form control
 - Custom properties on web components
 
-This plugin fills that gap by providing a `data-prop` attribute that binds reactive signals directly to element properties — a concise shorthand for `data-effect="el.prop = $signal"` that also supports setting multiple properties at once via object syntax.
+This plugin fills that gap by providing a `data-prop` attribute that binds reactive signals directly to element properties. Its two key advantages over the alternatives built into Datastar:
+
+- **Arbitrary expressions** — unlike `data-bind __prop`, the value is a full JS expression, not just a signal name: `data-prop:checked="$items.includes('x') || $count >= 4"`
+- **Multiple properties at once** — a single attribute can set several properties via object syntax, without the verbosity of multiple `data-effect` statements
 
 | | `data-prop` | [`data-effect`](https://data-star.dev/reference/attributes#data-effect) | [`data-bind __prop`](https://data-star.dev/reference/attributes#data-bind) |
 |---|---|---|---|
