@@ -3,550 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datastar data-prop Plugin</title>
-    <meta name="description" content="Interactive demo and documentation for @mbolli/datastar-attribute-prop - A Datastar plugin for binding reactive signals to DOM element properties">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <title>data-prop: Datastar plugin</title>
+    <meta name="description" content="Interactive demo and documentation for @mbolli/datastar-attribute-prop, a Datastar plugin for binding reactive signals to DOM element properties">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23005546%22/><path d=%22M12 9l-5 7 5 7M20 9l5 7-5 7%22 fill=%22none%22 stroke=%22white%22 stroke-width=%222.2%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
+    <link rel="preload" href="demo/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="demo/demo.css">
     <style>
-        :root {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-700: #374151;
-            --gray-900: #1f2937;
-        }
-        
-        * {
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            color: var(--gray-900);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            padding-right: 340px;
-        }
-        
-        header {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-        }
-        
-        header h1 {
-            margin: 0 0 0.5rem 0;
-            font-size: 2.5rem;
-            color: var(--gray-900);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        header p {
-            margin: 0;
-            color: var(--gray-700);
-            font-size: 1.1rem;
-        }
-        
-        .badges {
-            margin-top: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: var(--primary);
-            color: white;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .badge:hover {
-            background: var(--primary-dark);
-        }
-        
-        .badge.secondary {
-            background: var(--gray-700);
-        }
-        .test-section {
-            margin: 2rem 0;
-            padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .test-section h2 {
-            color: var(--gray-900);
-            margin: 0 0 0.5rem 0;
-            font-size: 1.5rem;
-        }
-        
-        .test-section > p {
-            color: var(--gray-700);
-            margin: 0 0 1.5rem 0;
-        }
-        button {
-            padding: 0.5rem 1rem;
-            margin: 0.25rem;
-            border: none;
-            border-radius: 6px;
-            background: var(--primary);
-            color: white;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        button:active {
-            transform: translateY(0);
-        }
-        button:disabled {
-            background: var(--gray-400);
-            cursor: not-allowed;
-            transform: none;
-        }
-        input, textarea {
-            display: block;
-            width: 100%;
-            padding: 0.625rem;
-            margin: 0.5rem 0;
-            border: 2px solid var(--gray-300);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: border-color 0.2s;
-        }
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        input:disabled, textarea:disabled {
-            background: var(--gray-100);
-            cursor: not-allowed;
-        }
-        .status {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 100vh;
-            padding: 1.5rem;
-            background: white;
-            border-left: 1px solid var(--gray-200);
-            overflow-y: auto;
-            box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
-        }
-        .status h3 {
-            margin: 0 0 1rem 0;
-            color: var(--gray-900);
-            font-size: 1.25rem;
-        }
-        .status-item {
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--gray-200);
-        }
-        .status-item:last-child {
-            border-bottom: none;
-        }
-        .status-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--gray-700);
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-        .status-value {
-            color: var(--gray-900);
-            font-weight: 500;
-        }
-        code {
-            background: var(--gray-900);
-            color: var(--gray-50);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.9em;
-            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-        }
-        
-        .checkbox-card {
-            border: 2px solid var(--gray-300);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
+        .checkbox-card { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
         .checkbox-card-header {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
+            gap: .75rem;
+            padding: .9rem 1rem;
+            background: var(--tint);
+            border-bottom: 1px solid var(--line);
             cursor: pointer;
             font-weight: 600;
-            font-size: 1.05rem;
         }
-        
-        .checkbox-card-body {
-            padding: 1rem;
-            background: white;
-        }
-        
+        .checkbox-card-body { padding: .5rem; }
         .checkbox-card-option {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border-radius: 6px;
+            gap: .75rem;
+            padding: .65rem .5rem;
+            border-radius: var(--radius);
             cursor: pointer;
-            transition: background 0.2s;
         }
-        
-        .checkbox-card-option:hover {
-            background: var(--gray-50);
-        }
-        
-        .checkbox-card-option input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: var(--primary);
-            margin: 0;
-        }
-        
-        .checkbox-card-header input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: white;
-            margin: 0;
-        }
-        
-        .checkbox-card-option-title {
-            font-weight: 500;
-            color: var(--gray-900);
-        }
-        
-        .checkbox-card-option-desc {
-            font-size: 0.875rem;
-            color: var(--gray-700);
-        }
-        
+        .checkbox-card-option:hover { background: var(--wash); }
+        .checkbox-card-option-title { font-weight: 600; }
+        .checkbox-card-option-desc { font-size: .875rem; color: var(--muted); }
         .checkbox-card-footer {
-            padding: 0.75rem 1rem;
-            background: var(--gray-50);
-            border-top: 1px solid var(--gray-200);
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .checkbox-card-count {
-            color: var(--gray-700);
-            font-size: 0.9rem;
-        }
-        
-        .checkbox-card-hint {
-            color: var(--gray-700);
-            font-size: 0.875rem;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding-right: 2rem;
-            }
-            .status {
-                display: none;
-            }
+            gap: .5rem 1rem;
+            padding: .75rem 1rem;
+            background: var(--wash);
+            border-top: 1px solid var(--line);
+            font-size: .9rem;
+            color: var(--muted);
         }
     </style>
 </head>
 <body>
-    <div class="status">
-        <h3>📦 Installation</h3>
-        <div class="status-item">
-            <div class="status-label">NPM</div>
-            <code style="display: block; white-space: pre-wrap; word-break: break-all; font-size: 0.7em; padding: 0.5rem;">npm install @mbolli/datastar-attribute-prop</code>
+    <header class="page-head">
+        <div class="wrap">
+            <p class="eyebrow">Datastar plugin</p>
+            <h1>data-prop</h1>
+            <p class="lead">Bind reactive signals to DOM element properties, one property or several at once, with any Datastar expression.</p>
+            <div class="btn-row">
+                <a href="https://github.com/mbolli/datastar-attribute-prop" class="btn">GitHub</a>
+                <a href="https://www.npmjs.com/package/@mbolli/datastar-attribute-prop" class="btn btn-ghost">npm</a>
+                <a href="https://data-star.dev" class="btn btn-ghost">Datastar docs</a>
+            </div>
         </div>
-        <div class="status-item">
-            <div class="status-label">Setup</div>
-            <pre style="font-size: 0.65em; overflow-x: auto; margin: 0; padding: 0.5rem; background: var(--gray-900); color: var(--gray-50); border-radius: 4px; white-space: pre-wrap; word-break: break-all;">&lt;script type="importmap"&gt;
+    </header>
+
+    <div class="wrap layout">
+        <aside class="sidebar">
+            <details class="panel" open>
+                <summary>Install</summary>
+                <div class="panel-body">
+                    <p class="label">npm</p>
+                    <pre class="code">npm install @mbolli/datastar-attribute-prop</pre>
+                    <p class="label">Browser</p>
+                    <pre class="code">&lt;script type="importmap"&gt;
 {
   "imports": {
-    "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.1/bundles/datastar.js"
+    "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.4/bundles/datastar.js"
   }
 }
 &lt;/script&gt;
 &lt;script type="module" src="https://cdn.jsdelivr.net/npm/@mbolli/datastar-attribute-prop@1/dist/index.js"&gt;&lt;/script&gt;</pre>
-        </div>
-        
-        <h3>📊 Live State</h3>
-        <div class="status-item">
-            <div class="status-label">Signals</div>
-            <pre data-json-signals style="font-size: 0.75em; overflow-x: auto; margin: 0; padding: 0.5rem; background: var(--gray-50); border-radius: 4px;"></pre>
-        </div>
-    </div>
+                </div>
+            </details>
+            <details class="panel" open>
+                <summary>Contents</summary>
+                <div class="panel-body">
+                    <ul class="toc">
+                        <li><a href="#test1">1. Input value</a></li>
+                        <li><a href="#test2">2. Disabled state</a></li>
+                        <li><a href="#test3">3. Multiple properties</a></li>
+                        <li><a href="#test4">4. Input types</a></li>
+                        <li><a href="#test5">5. Select all</a></li>
+                        <li><a href="#test6">6. Complex properties</a></li>
+                    </ul>
+                </div>
+            </details>
+            <details class="panel">
+                <summary>Live signals</summary>
+                <div class="panel-body">
+                    <pre class="code signals" data-json-signals></pre>
+                </div>
+            </details>
+        </aside>
 
-    <div class="container">
-        <header>
-            <h1>⚡ Datastar Prop Plugin</h1>
-            <p>Interactive demo showcasing property binding with reactive signals</p>
-            <div class="badges">
-                <a href="https://github.com/mbolli/datastar-attribute-prop" class="badge" target="_blank">GitHub</a>
-                <a href="https://www.npmjs.com/package/@mbolli/datastar-attribute-prop" class="badge" target="_blank">npm</a>
-                <a href="https://data-star.dev" class="badge secondary" target="_blank">Datastar Docs</a>
-            </div>
-        </header>
-
-    <!-- Test 1: Single Property Binding -->
-    <div class="test-section">
-        <h2>Test 1: Single Property - Input Value</h2>
-        <p>Uses <code>data-prop:value</code> to bind the value property.</p>
-        
-        <div data-signals='{ "test1": { "inputValue": "Hello Datastar!" } }'>
-            <input 
-                type="text" 
-                data-prop:value="$test1.inputValue"
-                placeholder="This value is controlled by a signal"
-            >
-            <button data-on:click="$test1.inputValue = 'Updated!'">Set to "Updated!"</button>
-            <button data-on:click="$test1.inputValue = 'Test ' + Date.now()">Set Random</button>
-        </div>
-    </div>
-
-    <!-- Test 2: Single Property - Disabled State -->
-    <div class="test-section">
-        <h2>Test 2: Single Property - Disabled State</h2>
-        <p>Uses <code>data-prop:disabled</code> to control button state.</p>
-
-        <div data-signals='{ "test2": { "isDisabled": false } }'>
-            <input type="text" data-prop:disabled="$test2.isDisabled" value="I can be disabled!">
-            <button data-on:click="$test2.isDisabled = !$test2.isDisabled">
-                Toggle Disabled (<span data-text="$test2.isDisabled ? 'Currently Disabled' : 'Currently Enabled'"></span>)
-            </button>
-        </div>
-    </div>
-
-    <!-- Test 3: Multiple Properties -->
-    <div class="test-section">
-        <h2>Test 3: Multiple Properties</h2>
-        <p>Uses <code>data-prop</code> without a key to set multiple properties at once.</p>
-        
-        <div data-signals='{ "test3": { "textValue": "Edit me!", "isReadOnly": false, "maxChars": 100 } }'>
-            <textarea 
-                data-prop="{ value: $test3.textValue, readOnly: $test3.isReadOnly, maxLength: $test3.maxChars }"
-                data-bind:test3.text-value
-                rows="3"
-            ></textarea>
-            
-            <div>
-                <button data-on:click="$test3.textValue = 'The quick brown fox jumps over the lazy dog'">
-                    Set Sample Text
-                </button>
-                <button data-on:click="$test3.isReadOnly = !$test3.isReadOnly">
-                    Toggle Read-Only (<span data-text="$test3.isReadOnly ? 'Read-Only' : 'Editable'"></span>)
-                </button>
-                <button data-on:click="$test3.maxChars = $test3.maxChars === 10 ? 100 : 10">
-                    Max Length: <span data-text="$test3.maxChars"></span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Test 4: Input Types -->
-    <div class="test-section">
-        <h2>Test 4: Different Input Types</h2>
-        <p>Testing property binding with various input types.</p>
-        
-        <div data-signals='{ 
-            "test4": {
-                "checkValue": true, 
-                "rangeValue": 50
-            }
-        }'>
-            <label>
-                Checkbox (checked property):
-                <input 
-                    type="checkbox" 
-                    data-prop:checked="$test4.checkValue"
-                >
-                <span data-text="$test4.checkValue ? 'Checked' : 'Unchecked'"></span>
-                <button data-on:click="$test4.checkValue = !$test4.checkValue">Toggle</button>
-            </label>
-            <br><br>
-            
-            <label>
-                Range (value property):
-                <input 
-                    type="range" 
-                    min="0" 
-                    max="100"
-                    data-prop:value="$test4.rangeValue"
-                >
-                <span data-text="$test4.rangeValue"></span>
-                <button data-on:click="$test4.rangeValue = Math.floor(Math.random() * 100)">Random</button>
-            </label>
-        </div>
-    </div>
-
-    <!-- Test 5: Select All Checkboxes -->
-    <div class="test-section">
-        <h2>Test 5: Select All Checkboxes</h2>
-        <p>Use an "all" checkbox to toggle multiple checkboxes at once using <code>@setAll</code> action. Uses event delegation with a single change handler on the parent.</p>
-        <p style="padding: 0.75rem; background: var(--gray-100); border-left: 4px solid var(--gray-400); border-radius: 4px; font-size: 0.95rem;">
-            ℹ️ <strong>Note:</strong> For this pattern, using <code>data-bind</code> with <code>data-effect</code> would be much simpler than <code>data-prop</code>. See the <a href="https://data-star.dev/examples/bulk_update" target="_blank" style="color: var(--primary);">bulk update example</a> in the Datastar docs for a cleaner implementation.
-        </p>
-        
-        <form id="notificationsForm" data-signals='{ 
-            "test5": {
-                "checkboxes": {
-                    "selectAll": false,
-                    "option1": false, 
-                    "option2": false, 
-                    "option3": false,
-                    "option4": false
-                },
-                "formDataString": ""
-            }
-        }' data-on:change="
-            const name = evt.target.dataset.name;
-            if (name === 'selectAll') {
-                @setAll(evt.target.checked, {include: /^test5\.checkboxes\.option/});
-                return;
-            } else {
-                $test5.checkboxes[name] = evt.target.checked;
-            }
-            $test5.checkboxes.selectAll = Object.values($test5.checkboxes).slice(1).every(Boolean);
-        ">
-            <div class="checkbox-card">
-                <label class="checkbox-card-header">
-                    <input 
-                        type="checkbox" 
-                        data-name="selectAll"
-                        data-prop:checked="$test5.checkboxes.selectAll"
+        <main class="demos">
+            <section class="card" id="test1">
+                <span class="card-num">Test 1</span>
+                <h2>Single property: input value</h2>
+                <p>Uses <code>data-prop:value</code> to bind the <code>value</code> property.</p>
+                <div data-signals='{ "test1": { "inputValue": "Hello Datastar!" } }'>
+                    <input
+                        type="text"
+                        aria-label="Input controlled by a signal"
+                        data-prop:value="$test1.inputValue"
+                        placeholder="This value is controlled by a signal"
                     >
-                    <span>Select All Options</span>
-                </label>
-                
-                <div class="checkbox-card-body">
-                    <label class="checkbox-card-option">
-                        <input 
-                            type="checkbox" 
-                            name="options[]"
-                            data-name="option1"
-                            value="email"
-                            data-prop:checked="$test5.checkboxes.option1"
-                        >
-                        <div>
-                            <div class="checkbox-card-option-title">Email Notifications</div>
-                            <div class="checkbox-card-option-desc">Receive updates via email</div>
-                        </div>
+                    <div class="actions">
+                        <button data-on:click="$test1.inputValue = 'Updated!'">Set to "Updated!"</button>
+                        <button class="ghost" data-on:click="$test1.inputValue = 'Test ' + Date.now()">Set random</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card" id="test2">
+                <span class="card-num">Test 2</span>
+                <h2>Single property: disabled state</h2>
+                <p>Uses <code>data-prop:disabled</code> to control whether the input is disabled.</p>
+                <div data-signals='{ "test2": { "isDisabled": false } }'>
+                    <input type="text" aria-label="Input that can be disabled" data-prop:disabled="$test2.isDisabled" value="I can be disabled!">
+                    <div class="actions">
+                        <button data-on:click="$test2.isDisabled = !$test2.isDisabled">
+                            Toggle disabled (<span data-text="$test2.isDisabled ? 'currently disabled' : 'currently enabled'"></span>)
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card" id="test3">
+                <span class="card-num">Test 3</span>
+                <h2>Multiple properties</h2>
+                <p>Uses <code>data-prop</code> without a key to set several properties at once.</p>
+                <div data-signals='{ "test3": { "textValue": "Edit me!", "isReadOnly": false, "maxChars": 100 } }'>
+                    <textarea
+                        aria-label="Textarea with several bound properties"
+                        data-prop="{ value: $test3.textValue, readOnly: $test3.isReadOnly, maxLength: $test3.maxChars }"
+                        data-bind:test3.text-value
+                        rows="3"
+                    ></textarea>
+                    <div class="actions">
+                        <button data-on:click="$test3.textValue = 'The quick brown fox jumps over the lazy dog'">Set sample text</button>
+                        <button class="ghost" data-on:click="$test3.isReadOnly = !$test3.isReadOnly">
+                            Toggle read-only (<span data-text="$test3.isReadOnly ? 'read-only' : 'editable'"></span>)
+                        </button>
+                        <button class="ghost" data-on:click="$test3.maxChars = $test3.maxChars === 10 ? 100 : 10">
+                            Max length: <span data-text="$test3.maxChars"></span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card" id="test4">
+                <span class="card-num">Test 4</span>
+                <h2>Different input types</h2>
+                <p>Property binding on a checkbox and a range input.</p>
+                <div data-signals='{
+                    "test4": {
+                        "checkValue": true,
+                        "rangeValue": 50
+                    }
+                }'>
+                    <label class="control-row">
+                        <span>Checkbox (<code>checked</code>)</span>
+                        <input type="checkbox" data-prop:checked="$test4.checkValue">
+                        <span class="readout" style="margin: 0; padding: .3rem .6rem" data-text="$test4.checkValue ? 'Checked' : 'Unchecked'"></span>
+                        <button class="ghost" data-on:click="$test4.checkValue = !$test4.checkValue">Toggle</button>
                     </label>
-                    
-                    <label class="checkbox-card-option">
-                        <input 
-                            type="checkbox" 
-                            name="options[]"
-                            data-name="option2"
-                            value="push"
-                            data-prop:checked="$test5.checkboxes.option2"
-                        >
-                        <div>
-                            <div class="checkbox-card-option-title">Push Notifications</div>
-                            <div class="checkbox-card-option-desc">Get instant alerts on your device</div>
-                        </div>
-                    </label>
-                    
-                    <label class="checkbox-card-option">
-                        <input 
-                            type="checkbox" 
-                            name="options[]"
-                            data-name="option3"
-                            value="sms"
-                            data-prop:checked="$test5.checkboxes.option3"
-                        >
-                        <div>
-                            <div class="checkbox-card-option-title">SMS Notifications</div>
-                            <div class="checkbox-card-option-desc">Receive text messages for important updates</div>
-                        </div>
-                    </label>
-                    
-                    <label class="checkbox-card-option">
-                        <input 
-                            type="checkbox" 
-                            name="options[]"
-                            data-name="option4"
-                            value="digest"
-                            data-prop:checked="$test5.checkboxes.option4"
-                        >
-                        <div>
-                            <div class="checkbox-card-option-title">Weekly Digest</div>
-                            <div class="checkbox-card-option-desc">Summary of activity sent weekly</div>
-                        </div>
+                    <label class="control-row">
+                        <span>Range (<code>value</code>)</span>
+                        <input type="range" min="0" max="100" data-prop:value="$test4.rangeValue">
+                        <span class="readout" style="margin: 0; padding: .3rem .6rem; min-width: 3.5rem; text-align: center" data-text="$test4.rangeValue"></span>
+                        <button class="ghost" data-on:click="$test4.rangeValue = Math.floor(Math.random() * 100)">Random</button>
                     </label>
                 </div>
-                
-                <div class="checkbox-card-footer">
-                    <span class="checkbox-card-count">
-                        <strong data-text="Object.values($test5.checkboxes).slice(1).filter(Boolean).length"></strong> of 4 selected
-                    </span>
-                    <span class="checkbox-card-hint">💡 Click "Select All" to toggle everything</span>
+            </section>
+
+            <section class="card" id="test5">
+                <span class="card-num">Test 5</span>
+                <h2>Select all checkboxes</h2>
+                <p>An "all" checkbox toggles several checkboxes at once with the <code>@setAll</code> action. A single change handler on the parent handles every checkbox.</p>
+                <p class="note" style="margin: 0 0 1.25rem">For this pattern, <code>data-bind</code> with <code>data-effect</code> is simpler than <code>data-prop</code>. The <a href="https://data-star.dev/examples/bulk_update">bulk update example</a> in the Datastar docs shows a cleaner implementation.</p>
+
+                <form id="notificationsForm" data-signals='{
+                    "test5": {
+                        "checkboxes": {
+                            "selectAll": false,
+                            "option1": false,
+                            "option2": false,
+                            "option3": false,
+                            "option4": false
+                        },
+                        "formDataString": ""
+                    }
+                }' data-on:change="
+                    const name = evt.target.dataset.name;
+                    if (name === 'selectAll') {
+                        $test5.checkboxes.selectAll = evt.target.checked;
+                        @setAll(evt.target.checked, {include: /^test5\.checkboxes\.option/});
+                        return;
+                    } else {
+                        $test5.checkboxes[name] = evt.target.checked;
+                    }
+                    $test5.checkboxes.selectAll = Object.values($test5.checkboxes).slice(1).every(Boolean);
+                ">
+                    <div class="checkbox-card">
+                        <label class="checkbox-card-header">
+                            <input type="checkbox" data-name="selectAll" data-prop:checked="$test5.checkboxes.selectAll">
+                            <span>Select all options</span>
+                        </label>
+                        <div class="checkbox-card-body">
+                            <label class="checkbox-card-option">
+                                <input type="checkbox" name="options[]" data-name="option1" value="email" data-prop:checked="$test5.checkboxes.option1">
+                                <div>
+                                    <div class="checkbox-card-option-title">Email notifications</div>
+                                    <div class="checkbox-card-option-desc">Receive updates via email</div>
+                                </div>
+                            </label>
+                            <label class="checkbox-card-option">
+                                <input type="checkbox" name="options[]" data-name="option2" value="push" data-prop:checked="$test5.checkboxes.option2">
+                                <div>
+                                    <div class="checkbox-card-option-title">Push notifications</div>
+                                    <div class="checkbox-card-option-desc">Get instant alerts on your device</div>
+                                </div>
+                            </label>
+                            <label class="checkbox-card-option">
+                                <input type="checkbox" name="options[]" data-name="option3" value="sms" data-prop:checked="$test5.checkboxes.option3">
+                                <div>
+                                    <div class="checkbox-card-option-title">SMS notifications</div>
+                                    <div class="checkbox-card-option-desc">Receive text messages for important updates</div>
+                                </div>
+                            </label>
+                            <label class="checkbox-card-option">
+                                <input type="checkbox" name="options[]" data-name="option4" value="digest" data-prop:checked="$test5.checkboxes.option4">
+                                <div>
+                                    <div class="checkbox-card-option-title">Weekly digest</div>
+                                    <div class="checkbox-card-option-desc">Summary of activity sent weekly</div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="checkbox-card-footer">
+                            <span><strong data-text="Object.values($test5.checkboxes).slice(1).filter(Boolean).length"></strong> of 4 selected</span>
+                            <span>"Select all options" toggles every option</span>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card" id="test6">
+                <span class="card-num">Test 6</span>
+                <h2>Complex properties</h2>
+                <p>Sets a custom object property, <code>customData</code>, on an element. The element shows the property it received.</p>
+                <div data-signals='{ "test6": { "customData": { "userId": 123, "userName": "TestUser" } } }'>
+                    <div id="custom-element" class="readout" data-prop="{ customData: $test6.customData, textContent: 'el.customData = ' + JSON.stringify($test6.customData) }"></div>
+                    <div class="actions">
+                        <button data-on:click="$test6.customData = { userId: Math.floor(Math.random() * 1000), userName: 'User' + Math.floor(Math.random() * 100) }">Update custom data</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </section>
+        </main>
     </div>
 
-    <!-- Test 6: Complex Object Properties -->
-    <div class="test-section">
-        <h2>Test 6: Complex Properties</h2>
-        <p>Setting custom properties on elements.</p>
-        
-        <div data-signals='{ "test6": { "customData": { "userId": 123, "userName": "TestUser" } } }'>
-            <div id="custom-element"></div>
-            <button data-on:click="$test6.customData = { userId: Math.floor(Math.random() * 1000), userName: 'User' + Math.floor(Math.random() * 100) }">
-                Update Custom Data
-            </button>
+    <footer class="page-foot">
+        <div class="wrap">
+            <ul class="foot-links">
+                <li><a href="https://github.com/mbolli/datastar-attribute-prop">GitHub</a></li>
+                <li><a href="https://www.npmjs.com/package/@mbolli/datastar-attribute-prop">npm</a></li>
+                <li><a href="https://data-star.dev">Datastar</a></li>
+                <li><a href="https://mbolli.github.io/datastar-attribute-on-keys/">data-on-keys plugin</a></li>
+            </ul>
+            <p class="maintainer">Maintained by <a href="https://zweiundeins.gmbh">zwei und eins gmbh</a>.</p>
         </div>
-    </div>
-
-    </div>
+    </footer>
 
     <script type="importmap">
         {
             "imports": {
-                "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.1/bundles/datastar.js"
+                "datastar": "https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.4/bundles/datastar.js"
             }
         }
     </script>
     <script type="module">
-        // Import the plugin - it will auto-register if 'datastar' is available via importmap
+        // The plugin registers itself when 'datastar' resolves through the import map
         import './dist/index.js'
     </script>
 </body>
