@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      skip_version_bump:
+        description: 'Skip version bump (release current version as-is)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -14,13 +20,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Check for skip release
         id: check_skip
         run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "skip=false" >> $GITHUB_OUTPUT
+            echo "Manual trigger, skipping skip-release check"
+            exit 0
+          fi
           COMMIT_MSG=$(git log -1 --pretty=%B)
           if [[ $COMMIT_MSG == *"[skip release]"* ]]; then
             echo "skip=true" >> $GITHUB_OUTPUT
@@ -31,9 +42,9 @@ jobs:
 
       - name: Setup Node.js
         if: steps.check_skip.outputs.skip != 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install pnpm
@@ -64,21 +75,23 @@ jobs:
         if: steps.check_skip.outputs.skip != 'true'
         id: version
         run: |
-          # Check commit message for version bump type
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          
-          if [[ $COMMIT_MSG == *"[major]"* ]]; then
-            VERSION_TYPE="major"
-          elif [[ $COMMIT_MSG == *"[minor]"* ]]; then
-            VERSION_TYPE="minor"
+          if [[ "${{ inputs.skip_version_bump }}" == "true" ]]; then
+            echo "Skipping version bump, using current version"
           else
-            VERSION_TYPE="patch"
+            # Check commit message for version bump type
+            COMMIT_MSG=$(git log -1 --pretty=%B)
+            
+            if [[ $COMMIT_MSG == *"[major]"* ]]; then
+              VERSION_TYPE="major"
+            elif [[ $COMMIT_MSG == *"[minor]"* ]]; then
+              VERSION_TYPE="minor"
+            else
+              VERSION_TYPE="patch"
+            fi
+            
+            echo "Version type: $VERSION_TYPE"
+            npm version $VERSION_TYPE -m "chore: release %s [skip ci]"
           fi
-          
-          echo "Version type: $VERSION_TYPE"
-          
-          # Bump version
-          npm version $VERSION_TYPE -m "chore: release %s [skip ci]"
           
           # Get new version
           NEW_VERSION=$(node -p "require('./package.json').version")
@@ -87,6 +100,10 @@ jobs:
       - name: Push changes
         if: steps.check_skip.outputs.skip != 'true'
         run: |
+          if [[ "${{ inputs.skip_version_bump }}" == "true" ]]; then
+            VERSION=$(node -p "require('./package.json').version")
+            git tag "v$VERSION" 2>/dev/null || echo "Tag v$VERSION already exists, skipping"
+          fi
           git push origin main --follow-tags
 
       - name: Create GitHub Release
@@ -99,6 +116,4 @@ jobs:
 
       - name: Publish to npm
         if: steps.check_skip.outputs.skip != 'true'
-        run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
