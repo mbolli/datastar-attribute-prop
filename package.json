@@ -31,13 +31,13 @@
   "author": "Michael Bolli <michael@bolli.us>",
   "license": "MIT",
   "devDependencies": {
-    "@types/jsdom": "^27.0.0",
-    "@types/node": "^24.12.2",
-    "datastar": "github:starfederation/datastar#v1.0.1",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^26.6.5",
+    "datastar": "github:starfederation/datastar#v1.0.4",
     "dts-bundle-generator": "^9.5.1",
-    "esbuild": "^0.25.12",
-    "jsdom": "^27.4.0",
-    "typescript": "^5.9.3"
+    "esbuild": "^0.28.2",
+    "jsdom": "^30.1.2",
+    "typescript": "^6.0.3"
   },
   "repository": {
     "type": "git",
